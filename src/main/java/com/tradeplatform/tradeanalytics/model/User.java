@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection= "Users")
+@Document(collection= "users")
 public class User {
 
     @Id
@@ -23,7 +23,7 @@ public class User {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(String user_id) {
         this.id = id;
     }
 
