@@ -14,8 +14,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> allUsers()
-    {
-        return userRepository.findAll();
+    public List<User> allUsers() {
+        List<User> users = userRepository.findAll();
+        System.out.println("Fetched users from DB: " + users); // Debugging log
+        return users;
     }
 }

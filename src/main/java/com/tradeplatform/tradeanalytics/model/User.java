@@ -1,12 +1,16 @@
 package com.tradeplatform.tradeanalytics.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Document(collection= "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -24,7 +28,7 @@ public class User {
     }
 
     public void setId(String user_id) {
-        this.id = id;
+        this.id = user_id;
     }
 
     public String getName() {
