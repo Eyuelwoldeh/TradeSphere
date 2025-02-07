@@ -15,8 +15,6 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> allUsers() {
-        List<User> users = userRepository.findAll();
-        System.out.println("Fetched users from DB: " + users); // Debugging log
-        return users;
+        return userRepository.findAll();
     }
 }

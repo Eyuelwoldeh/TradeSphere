@@ -1,8 +1,8 @@
 package com.tradeplatform.tradeanalytics.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,7 +14,8 @@ import java.util.List;
 public class User {
 
     @Id
-    private String id;
+    private ObjectId id;
+
     private String name;
     private String email;
     private String passwordHash;
@@ -23,12 +24,12 @@ public class User {
     private String location;
     private List<String> tradeInterests;
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String user_id) {
-        this.id = user_id;
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getName() {
