@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,6 +21,10 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers()
     {
         return new ResponseEntity<List<User>>(userService.allUsers(), HttpStatus.OK);
+    }
+
+    public static Long generateID() {
+        return UUID.randomUUID().getLeastSignificantBits() & Long.MAX_VALUE;
     }
 
     @PostMapping("/create_user")

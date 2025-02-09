@@ -16,6 +16,8 @@ public class User {
     @Id
     private ObjectId id;
 
+
+    private String uid;
     private String name;
     private String email;
     private String passwordHash;
@@ -23,6 +25,14 @@ public class User {
     private String company;
     private String location;
     private List<String> tradeInterests;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public ObjectId getId() {
         return id;

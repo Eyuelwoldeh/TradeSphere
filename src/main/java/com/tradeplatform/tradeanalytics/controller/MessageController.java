@@ -21,13 +21,23 @@ public class MessageController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<Message>> getMessages(@PathVariable String userId) {
         try {
+            // Trim any potential whitespace
+            userId = userId.trim();
+
+            // Log the received userId for debugging
+            System.out.println("Received userId: " + userId);
+
             // Ensure userId is a valid ObjectId
             if (!ObjectId.isValid(userId)) {
+                System.out.println("Invalid ObjectId format for userId: " + userId);
                 return ResponseEntity.badRequest().body(null); // 400 Bad Request if invalid
             }
-            List<Message> messages = messageService.getUserMessages(new ObjectId(userId));
+
+            List<Message> messages = messageService.getUserMessages(new String(userId));
             return ResponseEntity.ok(messages);
         } catch (Exception e) {
+            // Log the exception for debugging
+            System.out.println("Exception: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends MongoRepository<Message, ObjectId> {
-    List<Message> findBySenderIdOrReceiverId(ObjectId senderId, ObjectId receiverId);
+    List<Message> findBySenderIdOrReceiverId(String senderId, String receiverId);
 }

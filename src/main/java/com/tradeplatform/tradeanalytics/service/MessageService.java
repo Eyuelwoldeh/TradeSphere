@@ -13,11 +13,11 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public List<Message> getUserMessages(ObjectId userId) {
+    public List<Message> getUserMessages(String userId) {
         return messageRepository.findBySenderIdOrReceiverId(userId, userId);
     }
 
-    public Message sendMessage(ObjectId senderId, ObjectId receiverId, String content) {
+    public Message sendMessage(String senderId, String receiverId, String content) {
         Message message = new Message(senderId, receiverId, content);
         return messageRepository.save(message);
     }
