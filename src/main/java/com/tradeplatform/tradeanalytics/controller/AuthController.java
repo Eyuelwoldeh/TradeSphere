@@ -28,12 +28,17 @@ public class AuthController {
 
         Optional<User> user = userService.findByEmail(loginRequest.getEmail());
 
-        System.out.println(user.get().getId());
-        if (user.isPresent() && user.get().getPasswordHash().equals(loginRequest.getPasswordHash())) {
-            System.out.println("🔓 Login successful for: " + loginRequest.getEmail());
-            return ResponseEntity.ok(user.get());
+        if (user.isPresent()) {  // ✅ Only call .get() if the user exists
+            System.out.println(user.get().getId());  // Safe now
+            if (user.get().getPasswordHash().equals(loginRequest.getPasswordHash())) {
+                System.out.println("🔓 Login successful for: " + loginRequest.getEmail());
+                return ResponseEntity.ok(user.get());
+            } else {
+                System.out.println("❌ Invalid credentials for: " + loginRequest.getEmail());
+                return ResponseEntity.status(401).body("Invalid credentials");
+            }
         } else {
-            System.out.println("❌ Invalid credentials for: " + loginRequest.getEmail());
+            System.out.println("❌ No user found with email: " + loginRequest.getEmail());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
