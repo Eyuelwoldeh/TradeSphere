@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -13,8 +14,18 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public List<Message> getUserMessages(String uid) {
-        return messageRepository.findBySenderUidOrReceiverUid(uid, uid);
+    public List<Message> getMessagesBetweenUsers(String senderUid, String receiverUid) {
+        return messageRepository.findBySenderUidAndReceiverUidOrReceiverUidAndSenderUid(
+                senderUid, receiverUid, receiverUid, senderUid
+        );
+    }
+
+    public List<String> getChatUsers(String uid) {
+        List<Message> messages = messageRepository.findBySenderUidOrReceiverUid(uid, uid);
+        return messages.stream()
+                .map(m -> m.getSenderUid().equals(uid) ? m.getReceiverUid() : m.getSenderUid())
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public Message sendMessage(String senderUid, String receiverUid, String content) {

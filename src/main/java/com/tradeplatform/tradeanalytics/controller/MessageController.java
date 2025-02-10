@@ -16,13 +16,22 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("/{uid}")
-    public ResponseEntity<List<Message>> getMessages(@PathVariable String uid) {
-        List<Message> messages = messageService.getUserMessages(uid);
+    @GetMapping("/{senderUid}/{receiverUid}")
+    public ResponseEntity<List<Message>> getMessagesBetweenUsers(
+            @PathVariable String senderUid,
+            @PathVariable String receiverUid
+    ) {
+        List<Message> messages = messageService.getMessagesBetweenUsers(senderUid, receiverUid);
         return ResponseEntity.ok(messages);
     }
 
-    @PostMapping("/send_message")
+    @GetMapping("/chat-users/{uid}")
+    public ResponseEntity<List<String>> getChatUsers(@PathVariable String uid) {
+        List<String> chatUsers = messageService.getChatUsers(uid);
+        return ResponseEntity.ok(chatUsers);
+    }
+
+    @PostMapping
     public ResponseEntity<Message> sendMessage(@RequestBody Message message) {
         Message savedMessage = messageService.sendMessage(
                 message.getSenderUid(),
