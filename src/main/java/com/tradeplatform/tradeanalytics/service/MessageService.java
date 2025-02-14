@@ -1,7 +1,9 @@
 package com.tradeplatform.tradeanalytics.service;
 
 import com.tradeplatform.tradeanalytics.model.Message;
+import com.tradeplatform.tradeanalytics.model.User;
 import com.tradeplatform.tradeanalytics.repository.MessageRepository;
+import com.tradeplatform.tradeanalytics.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +16,26 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private UserRepository userRepository;  // Add UserRepository to fetch user details
+
     public List<Message> getMessagesBetweenUsers(String senderUid, String receiverUid) {
         return messageRepository.findBySenderUidAndReceiverUidOrReceiverUidAndSenderUid(
                 senderUid, receiverUid, receiverUid, senderUid
         );
     }
 
-    public List<String> getChatUsers(String uid) {
+    public List<User> getChatUsers(String uid) {
         List<Message> messages = messageRepository.findBySenderUidOrReceiverUid(uid, uid);
-        return messages.stream()
+
+        // Extract distinct UIDs of chat users
+        List<String> chatUserIds = messages.stream()
                 .map(m -> m.getSenderUid().equals(uid) ? m.getReceiverUid() : m.getSenderUid())
                 .distinct()
                 .collect(Collectors.toList());
+
+        // Fetch full user details based on extracted UIDs
+        return userRepository.findByUidIn(chatUserIds);
     }
 
     public Message sendMessage(String senderUid, String receiverUid, String content) {

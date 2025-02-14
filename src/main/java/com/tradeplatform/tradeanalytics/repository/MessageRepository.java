@@ -1,6 +1,7 @@
 package com.tradeplatform.tradeanalytics.repository;
 
 import com.tradeplatform.tradeanalytics.model.Message;
+import com.tradeplatform.tradeanalytics.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

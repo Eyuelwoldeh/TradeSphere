@@ -1,6 +1,7 @@
 package com.tradeplatform.tradeanalytics.controller;
 
 import com.tradeplatform.tradeanalytics.model.Message;
+import com.tradeplatform.tradeanalytics.model.User;
 import com.tradeplatform.tradeanalytics.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,8 @@ public class MessageController {
     }
 
     @GetMapping("/chat-users/{uid}")
-    public ResponseEntity<List<String>> getChatUsers(@PathVariable String uid) {
-        List<String> chatUsers = messageService.getChatUsers(uid);
+    public ResponseEntity<List<User>> getChatUsers(@PathVariable String uid) {
+        List<User> chatUsers = messageService.getChatUsers(uid);
         return ResponseEntity.ok(chatUsers);
     }
 
