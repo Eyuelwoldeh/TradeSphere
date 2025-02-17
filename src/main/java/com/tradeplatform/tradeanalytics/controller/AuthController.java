@@ -17,28 +17,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginRequest) {
-        System.out.println("🚀 Received login request...");
 
         if (loginRequest == null || loginRequest.getEmail() == null || loginRequest.getPasswordHash() == null) {
-            System.out.println("⚠️ Request body is null or missing required fields!");
             return ResponseEntity.badRequest().body("Invalid request payload");
         }
-
-        System.out.println("✅ Email received: " + loginRequest.getEmail());
 
         Optional<User> user = userService.findByEmail(loginRequest.getEmail());
 
         if (user.isPresent()) {  // ✅ Only call .get() if the user exists
-            System.out.println(user.get().getId());  // Safe now
             if (user.get().getPasswordHash().equals(loginRequest.getPasswordHash())) {
-                System.out.println("🔓 Login successful for: " + loginRequest.getEmail());
                 return ResponseEntity.ok(user.get());
             } else {
-                System.out.println("❌ Invalid credentials for: " + loginRequest.getEmail());
                 return ResponseEntity.status(401).body("Invalid credentials");
             }
         } else {
-            System.out.println("❌ No user found with email: " + loginRequest.getEmail());
             return ResponseEntity.status(401).body("Invalid credentials");
         }
     }
