@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +28,9 @@ public class AuthController {
 
         if (user.isPresent()) {  // ✅ Only call .get() if the user exists
             if (user.get().getPasswordHash().equals(loginRequest.getPasswordHash())) {
-                return ResponseEntity.ok(user.get());
+                Map<String, User> tokenMap = new HashMap<>();
+                tokenMap.put("token", user.get());
+                return ResponseEntity.ok(tokenMap);
             } else {
                 return ResponseEntity.status(401).body("Invalid credentials");
             }
