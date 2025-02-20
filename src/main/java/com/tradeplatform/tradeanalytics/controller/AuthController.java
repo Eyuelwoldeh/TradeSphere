@@ -28,8 +28,8 @@ public class AuthController {
 
         if (user.isPresent()) {  // ✅ Only call .get() if the user exists
             if (user.get().getPasswordHash().equals(loginRequest.getPasswordHash())) {
-                Map<String, User> tokenMap = new HashMap<>();
-                tokenMap.put("token", user.get());
+                Map<String, String> tokenMap = new HashMap<>();
+                tokenMap.put("token", "this-is-your-token");
                 return ResponseEntity.ok(tokenMap);
             } else {
                 return ResponseEntity.status(401).body("Invalid credentials");
