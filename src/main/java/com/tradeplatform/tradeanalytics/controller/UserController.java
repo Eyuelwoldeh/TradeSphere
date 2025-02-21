@@ -24,17 +24,32 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        // Log the userDetails object to see if it's being passed correctly
+        System.out.println("Received user details: " + userDetails);
+
         if (userDetails == null) {
+            // Log if userDetails is null
+            System.out.println("UserDetails is null, returning Unauthorized.");
             return ResponseEntity.status(401).body("Unauthorized");
         }
 
         // Find user in MongoDB
-        Optional<User> user = userService.findByEmail(userDetails.getUsername()); // get username actually just returns the email ... because email is used as unique identifier for login
+        Optional<User> user = userService.findByEmail(userDetails.getUsername());
+        System.out.println("Looking up user with email: " + userDetails.getUsername());
+
         if (!user.isPresent()) {
+            // Log when the user is not found in the database
+            System.out.println("User not found with email: " + userDetails.getUsername());
             return ResponseEntity.status(404).body("User not found");
         }
 
-        UserDTO userDTO = new UserDTO(user.get().getUid(),user.get().getEmail(),user.get().getName());
+        // Log the user details before sending to the client
+        System.out.println("User found: " + user.get());
+
+        UserDTO userDTO = new UserDTO(user.get().getUid(), user.get().getEmail(), user.get().getName());
+
+        // Log the DTO that will be returned
+        System.out.println("Returning userDTO: " + userDTO);
 
         // Send user info (without password)
         return ResponseEntity.ok(userDTO);
